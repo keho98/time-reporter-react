@@ -18,9 +18,7 @@ var ReactTimerMobile = React.createClass({
   render: function() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Hello world!
-        </Text>
+        <ReportsList />
       </View>
     );
   }
@@ -29,16 +27,42 @@ var ReactTimerMobile = React.createClass({
 var ReportsList = React.createClass({
   getInitialState: function() {
     return {
-      reports: null,
+      dataSource: new ListView.DataSource({
+        rowHasChanged: (row1, row2) => row1 !== row2,
+      }),
+      loaded: false
     };
   },
 
-  renderLoadingView: function() {
+  componentDidMount: function() {
+    this.fetchData();
+  },
 
+  fetchData: function() {
+    this.setState({
+      dataSource: this.state.dataSource.cloneWithRows([{time: 20}, {time: 40}]),
+      loaded: true,
+    });
+  },
+
+  renderLoadingView: function() {
+    return (
+      <View style={styles.container}>
+        <Text>
+          Loading movies...
+        </Text>
+      </View>
+    );
   },
 
   renderReport: function(report) {
-
+    return (
+      <View style={styles.container}>
+        <Text>
+          {report.time}
+        </Text>
+      </View>
+    );
   },
 
   render: function() {
