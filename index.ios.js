@@ -11,15 +11,15 @@ var {
   Image,
   Text,
   View,
-  ListView
+  ListView,
+  TouchableOpacity,
+  NavigatorIOS,
 } = React;
 
-var ReactTimerMobile = React.createClass({
+var ReactTimerView = React.createClass({
   render: function() {
     return (
-      <View style={styles.container}>
-        <ReportsList />
-      </View>
+      <ReportsList style={styles.reports}/>
     );
   }
 });
@@ -40,7 +40,7 @@ var ReportsList = React.createClass({
 
   fetchData: function() {
     this.setState({
-      dataSource: this.state.dataSource.cloneWithRows([{time: 20}, {time: 40}]),
+      dataSource: this.state.dataSource.cloneWithRows([{text: "Hello", time: 20}, {text: "Hello",time: 40}]),
       loaded: true,
     });
   },
@@ -49,15 +49,15 @@ var ReportsList = React.createClass({
     return (
       <View style={styles.container}>
         <Text>
-          Loading movies...
+          Loading reports...
         </Text>
       </View>
     );
   },
 
-  renderReport: function(report) {
+  renderReport: function(report, i) {
     return (
-      <View style={styles.container}>
+      <View key={i} style={styles.row}>
         <Text style={styles.text}>
           {report.time}
         </Text>
@@ -77,26 +77,63 @@ var ReportsList = React.createClass({
       />
     );
   }
-})
+});
+
+var ReportButton = React.createClass({
+  _onPressButton: function() {
+    return;
+  },
+  render: function() {
+    return (
+      <TouchableOpacity onPress={this._onPressButton}>
+        <Text style={styles.button}>
+          New Item
+        </Text>
+      </TouchableOpacity>
+    );
+  }
+});
+
+
+var ReactTimerMobile = React.createClass({
+  render: function() {
+    return (
+      <NavigatorIOS style={styles.root} initialRoute={{
+        component: ReactTimerView,
+        title: 'React Timer',
+      }}/>
+    )
+  }
+});
 
 var styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
+
+  row: {
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    paddingHorizontal: 15,
+    paddingVertical: 8,
+  },
+
   welcome: {
     fontSize: 20,
     textAlign: 'center',
     margin: 10,
   },
+
   instructions: {
     textAlign: 'center',
     color: '#333333',
     marginBottom: 5,
   },
+
   text: {
     fontSize: 24,
     textAlign: 'left',
@@ -105,6 +142,16 @@ var styles = StyleSheet.create({
     paddingTop: 20,
     backgroundColor: '#F5FCFF',
   },
+  reports: {
+    flex:1
+  },
+  button: {
+    flex:2,
+    fontSize: 18
+  },
+  root: {
+    flex:1,
+  }
 });
 
 AppRegistry.registerComponent('ReactTimerMobile', () => ReactTimerMobile);
