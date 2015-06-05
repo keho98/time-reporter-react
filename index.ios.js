@@ -58,7 +58,7 @@ var ReportsList = React.createClass({
   renderReport: function(report) {
     return (
       <View style={styles.container}>
-        <Text>
+        <Text style={styles.text}>
           {report.time}
         </Text>
       </View>
@@ -96,6 +96,10 @@ var styles = StyleSheet.create({
     textAlign: 'center',
     color: '#333333',
     marginBottom: 5,
+  },
+  text: {
+    fontSize: 24,
+    textAlign: 'left',
   },
   listView: {
     paddingTop: 20,
