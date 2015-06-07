@@ -65,6 +65,12 @@ var ReportsList = React.createClass({
     );
   },
 
+  renderFooter: function() {
+    return (
+      <ReportButton />
+    );
+  },
+
   render: function() {
     if (!this.state.loaded) {
       return this.renderLoadingView();
@@ -73,6 +79,7 @@ var ReportsList = React.createClass({
       <ListView
         dataSource={this.state.dataSource}
         renderRow={this.renderReport}
+        renderFooter={this.renderFooter}
         style={styles.listView}
       />
     );
@@ -85,10 +92,13 @@ var ReportButton = React.createClass({
   },
   render: function() {
     return (
+
       <TouchableOpacity onPress={this._onPressButton}>
-        <Text style={styles.button}>
-          New Item
-        </Text>
+        <View style={styles.row}>
+          <Text>
+            New Item
+          </Text>
+        </View>
       </TouchableOpacity>
     );
   }
@@ -112,7 +122,7 @@ var styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#F5FCFF'
   },
 
   row: {
@@ -146,7 +156,6 @@ var styles = StyleSheet.create({
     flex:1
   },
   button: {
-    flex:2,
     fontSize: 18
   },
   root: {
