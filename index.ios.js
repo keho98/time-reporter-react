@@ -31,6 +31,14 @@ var noReports = [
                 ];
 
 var ReactTimerView = React.createClass({
+  onDidFocus: function() {
+
+  },
+
+  componentDidMount: function() {
+    // this.props.navigator.onDidFocus = this.onDidFocus;
+  },
+
   render: function() {
     return (
       <ReportsList navigator={this.props.navigator} style={styles.reports}/>
@@ -66,6 +74,7 @@ var ReportsList = React.createClass({
 
   componentDidMount: function() {
     this.fetchData();
+    console.log("Mount");
   },
 
   showError: function() {
@@ -162,12 +171,16 @@ var ReportButton = React.createClass({
 
 
 var ReactTimerMobile = React.createClass({
+  _onDidFocus: function() {
+    console.log("Focus");
+  },
+
   render: function() {
     return (
       <NavigatorIOS style={styles.root} initialRoute={{
         component: ReactTimerView,
         title: 'React Timer',
-      }}/>
+      }} ref="nav"/>
     )
   }
 });
