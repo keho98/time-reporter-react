@@ -11,6 +11,7 @@ var {
   StyleSheet,
   Image,
   Text,
+  TextInput,
   View,
   ListView,
   TouchableOpacity,
@@ -32,7 +33,8 @@ var ReportForm = React.createClass({
   render: function() {
     return (
       <View style={styles.container}>
-        <Text>New Form</Text>
+        <Text style={styles.label}>New Form</Text>
+        <TextInput style={styles.textInput}/>
       </View>
     )
   }
@@ -126,7 +128,7 @@ var ReportButton = React.createClass({
   },
   render: function() {
     return (
-      <TouchableOpacity onPress={this._onPressButton}>
+      <TouchableOpacity style={styles.footer} onPress={this._onPressButton}>
         <View style={styles.row}>
           <Text>
             New Item
@@ -154,7 +156,6 @@ var styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: '#F5FCFF'
   },
 
@@ -193,7 +194,21 @@ var styles = StyleSheet.create({
   },
   root: {
     flex:1,
-  }
+  },
+  label: {
+    textAlign: 'left',
+    paddingHorizontal: 8,
+    paddingVertical: 8,
+  },
+  textInput: {
+    height: 40,
+    paddingHorizontal: 8,
+    backgroundColor: '#FFFFFF',
+  },
+
+  footer: {
+    alignSelf: 'flex-end'
+  },
 });
 
 AppRegistry.registerComponent('ReactTimerMobile', () => ReactTimerMobile);
