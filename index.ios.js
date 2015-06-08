@@ -23,8 +23,18 @@ var STORAGE_KEY = 'MomentsStorage:key';
 var ReactTimerView = React.createClass({
   render: function() {
     return (
-      <ReportsList style={styles.reports}/>
+      <ReportsList navigator={this.props.navigator} style={styles.reports}/>
     );
+  }
+});
+
+var ReportForm = React.createClass({
+  render: function() {
+    return (
+      <View style={styles.container}>
+        <Text>New Form</Text>
+      </View>
+    )
   }
 });
 
@@ -88,7 +98,7 @@ var ReportsList = React.createClass({
 
   renderFooter: function() {
     return (
-      <ReportButton />
+      <ReportButton navigator={this.props.navigator} />
     );
   },
 
@@ -109,11 +119,13 @@ var ReportsList = React.createClass({
 
 var ReportButton = React.createClass({
   _onPressButton: function() {
-    return;
+    this.props.navigator.push({
+      component: ReportForm,
+      title: 'New Report',
+    });
   },
   render: function() {
     return (
-
       <TouchableOpacity onPress={this._onPressButton}>
         <View style={styles.row}>
           <Text>
