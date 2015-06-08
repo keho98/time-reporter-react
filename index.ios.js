@@ -7,6 +7,7 @@
 var React = require('react-native');
 var {
   AppRegistry,
+  AsyncStorage,
   StyleSheet,
   Image,
   Text,
@@ -15,6 +16,9 @@ var {
   TouchableOpacity,
   NavigatorIOS,
 } = React;
+
+
+var STORAGE_KEY = 'MomentsStorage:key';
 
 var ReactTimerView = React.createClass({
   render: function() {
@@ -38,11 +42,28 @@ var ReportsList = React.createClass({
     this.fetchData();
   },
 
+  showError: function() {
+
+  },
+
   fetchData: function() {
-    this.setState({
-      dataSource: this.state.dataSource.cloneWithRows([{text: "Hello", time: 20}, {text: "Hello",time: 40}]),
-      loaded: true,
-    });
+    AsyncStorage.getItem(STORAGE_KEY)
+      .then((value) => {
+        var reports;
+        if (value == null) {
+          reports = [];
+        } else {
+          reports = [{text: "Hello", time: 20}, {text: "Hello",time: 40}];
+        }
+        this.setState({
+          dataSource: this.state.dataSource.cloneWithRows(reports),
+          loaded: true,
+        });
+      })
+      .catch((error) => {
+        this.showError(error);
+      })
+      .done();
   },
 
   renderLoadingView: function() {
