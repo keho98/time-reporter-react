@@ -20,6 +20,15 @@ var {
 
 
 var STORAGE_KEY = 'MomentsStorage:key';
+var noReports = [
+                  {text: "Hello", time: 10},
+                  {text: "Hello", time: 20},
+                  {text: "Hello", time: 30},
+                  {text: "Hello", time: 40},
+                  {text: "Hello", time: 50},
+                  {text: "Hello", time: 60},
+                  {text: "Hello", time: 70},
+                ];
 
 var ReactTimerView = React.createClass({
   render: function() {
@@ -34,7 +43,8 @@ var ReportForm = React.createClass({
     return (
       <View style={styles.container}>
         <Text style={styles.label}>New Form</Text>
-        <TextInput style={styles.textInput}/>
+        <TextInput autoFocus={true} style={styles.textInput}/>
+        <ReportButton title="Submit" />
       </View>
     )
   }
@@ -63,7 +73,7 @@ var ReportsList = React.createClass({
       .then((value) => {
         var reports;
         if (value == null) {
-          reports = [];
+          reports = noReports;
         } else {
           reports = [{text: "Hello", time: 20}, {text: "Hello",time: 40}];
         }
@@ -100,7 +110,7 @@ var ReportsList = React.createClass({
 
   renderFooter: function() {
     return (
-      <ReportButton navigator={this.props.navigator} />
+      <ReportButton title="New Report" navigator={this.props.navigator} />
     );
   },
 
@@ -128,10 +138,10 @@ var ReportButton = React.createClass({
   },
   render: function() {
     return (
-      <TouchableOpacity style={styles.footer} onPress={this._onPressButton}>
-        <View style={styles.row}>
+      <TouchableOpacity onPress={this._onPressButton}>
+        <View style={[styles.row, styles.footer]}>
           <Text>
-            New Item
+            {this.props.title}
           </Text>
         </View>
       </TouchableOpacity>
@@ -179,7 +189,7 @@ var styles = StyleSheet.create({
   },
 
   text: {
-    fontSize: 24,
+    fontSize: 18,
     textAlign: 'left',
   },
   listView: {
@@ -190,7 +200,7 @@ var styles = StyleSheet.create({
     flex:1
   },
   button: {
-    fontSize: 18
+    fontSize: 24
   },
   root: {
     flex:1,
@@ -207,7 +217,7 @@ var styles = StyleSheet.create({
   },
 
   footer: {
-    alignSelf: 'flex-end'
+    marginVertical: 8,
   },
 });
 
