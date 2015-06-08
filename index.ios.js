@@ -39,12 +39,16 @@ var ReactTimerView = React.createClass({
 });
 
 var ReportForm = React.createClass({
+  onSubmit: function() {
+    this.props.navigator.pop();
+  },
+
   render: function() {
     return (
       <View style={styles.container}>
         <Text style={styles.label}>New Form</Text>
-        <TextInput autoFocus={true} style={styles.textInput}/>
-        <ReportButton title="Submit" />
+        <TextInput autoFocus={true} onChangeText={(text) => this.setState({input: text})} style={styles.textInput}/>
+        <ReportButton title="Submit" onPress={this.onSubmit}/>
       </View>
     )
   }
@@ -68,6 +72,13 @@ var ReportsList = React.createClass({
 
   },
 
+  onPress: function() {
+    this.props.navigator.push({
+      component: ReportForm,
+      title: 'New Report',
+    });
+  },
+
   fetchData: function() {
     AsyncStorage.getItem(STORAGE_KEY)
       .then((value) => {
@@ -75,7 +86,7 @@ var ReportsList = React.createClass({
         if (value == null) {
           reports = noReports;
         } else {
-          reports = [{text: "Hello", time: 20}, {text: "Hello",time: 40}];
+          reports = value;
         }
         this.setState({
           dataSource: this.state.dataSource.cloneWithRows(reports),
@@ -110,7 +121,7 @@ var ReportsList = React.createClass({
 
   renderFooter: function() {
     return (
-      <ReportButton title="New Report" navigator={this.props.navigator} />
+      <ReportButton title="New Report" navigator={this.props.navigator} onPress={this.onPress} />
     );
   },
 
@@ -138,9 +149,9 @@ var ReportButton = React.createClass({
   },
   render: function() {
     return (
-      <TouchableOpacity onPress={this._onPressButton}>
+      <TouchableOpacity onPress={this.props.onPress}>
         <View style={[styles.row, styles.footer]}>
-          <Text>
+          <Text style={[styles.center, styles.button]}>
             {this.props.title}
           </Text>
         </View>
@@ -200,16 +211,20 @@ var styles = StyleSheet.create({
     flex:1
   },
   button: {
-    fontSize: 24
+    fontSize: 18,
+    textAlign: 'center'
   },
+
   root: {
     flex:1,
   },
+
   label: {
     textAlign: 'left',
     paddingHorizontal: 8,
     paddingVertical: 8,
   },
+
   textInput: {
     height: 40,
     paddingHorizontal: 8,
@@ -219,6 +234,10 @@ var styles = StyleSheet.create({
   footer: {
     marginVertical: 8,
   },
+
+  center: {
+    textAlign: 'center',
+  }
 });
 
 AppRegistry.registerComponent('ReactTimerMobile', () => ReactTimerMobile);
